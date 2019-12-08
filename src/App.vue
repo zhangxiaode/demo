@@ -1,100 +1,124 @@
 <template>
   <div id="app">
-    <Left class="left" :leftData="leftData" @parentClick="handleClick" />
-    <Right class="right" :current="current" />
+    <!-- <Left class="left" :leftData="leftData" @parentClick="handleClick" />
+    <Right class="right" :current="current" /> -->
+    <el-tree
+      ref="elTree"
+      :data="leftData"
+      :props="defaultProps"
+      node-key="$treeNodeId"
+      accordion
+      @node-click="handleNodeClick"
+    ></el-tree>
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item
+        v-for="(item, index) in breadcrumbData"
+        :key="index"
+        >{{ item }}</el-breadcrumb-item
+      >
+    </el-breadcrumb>
   </div>
 </template>
 
 <script>
-import Left from "@/components/left";
-import Right from "@/components/right";
 export default {
-  name: "app",
+  name: 'app',
   data() {
     return {
+      breadcrumbData: [],
       leftData: [
         {
-          label: "一级 1",
+          label: '一级 1',
           children: [
             {
-              label: "二级 1-1",
+              label: '二级 1-1',
               children: [
                 {
-                  label: "三级 1-1-1"
+                  label: '三级 1-1-1'
                 }
               ]
             }
           ]
         },
         {
-          label: "一级 2",
+          label: '一级 2',
           children: [
             {
-              label: "二级 2-1",
+              label: '二级 2-1',
               children: [
                 {
-                  label: "三级 2-1-1"
+                  label: '三级 2-1-1'
                 }
               ]
             },
             {
-              label: "二级 2-2",
+              label: '二级 2-2',
               children: [
                 {
-                  label: "三级 2-2-1"
+                  label: '三级 2-2-1'
                 }
               ]
             }
           ]
         },
         {
-          label: "一级 3",
+          label: '一级 3',
           children: [
             {
-              label: "二级 3-1",
+              label: '二级 3-1',
               children: [
                 {
-                  label: "三级 3-1-1"
+                  label: '三级 3-1-1'
                 }
               ]
             },
             {
-              label: "二级 3-2",
+              label: '二级 3-2',
               children: [
                 {
-                  label: "三级 3-2-1"
+                  label: '三级 3-2-1'
                 }
               ]
             }
           ]
         }
       ],
-      current: ["", "", ""]
-    };
-  },
-  components: {
-    Left,
-    Right
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      current: ['', '', '']
+    }
   },
   mounted() {},
   created() {},
   methods: {
-    handleClick(obj) {
-      this.current = [
-        this.leftData[obj.index].label,
-        this.leftData[obj.index].children[obj.idx].label,
-        this.leftData[obj.index].children[obj.idx].children[obj.i].label
-      ];
+    // handleClick(obj) {
+    //   this.current = [
+    //     this.leftData[obj.index].label,
+    //     this.leftData[obj.index].children[obj.idx].label,
+    //     this.leftData[obj.index].children[obj.idx].children[obj.i].label
+    //   ]
+    // }
+    handleNodeClick(data,data1,data2) {
+      // if(data.$treeNodeId==3) {
+      //   this.breadcrumbData[2] = data.label
+      // }
+      // console.log(this.$refs.elTree.getCurrentKey())
+      // console.log(this.$refs.elTree.getCheckedNodes())
+      this.breadcrumbData.push(data1.parent.parent.label);
+      this.breadcrumbData.push(data1.parent.label);
+      this.breadcrumbData.push(data1.label);
     }
   }
-};
+}
 </script>
 
 <style scoped lang='less'>
 #app {
   height: 100%;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   .left {
     flex: 1;
     height: 100%;
